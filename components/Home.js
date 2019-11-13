@@ -8,6 +8,7 @@ const Home = () => {
     archivedTodos,
     completedCount,
     incompleteCount,
+    archivedCount,
   } = useStoreState(state => state.todoList);
   const addTodo = useStoreActions(actions => actions.todoList.addTodoAsync);
   const removeTodo = useStoreActions(actions => actions.todoList.removeTodo);
@@ -41,8 +42,9 @@ const Home = () => {
         onChangeText={text => setTodoItem(text)}
       />
       <Button onPress={() => addTodoToList()} title="Add" />
-      <Text>{`We have ${completedCount} completed todos`}</Text>
+      <Text>{`We have ${completedCount - archivedCount} completed todos`}</Text>
       <Text>{`We have ${incompleteCount} incomplete todos`}</Text>
+      <Text>{`We have ${archivedCount} archived todos`}</Text>
       <Text style={{marginTop: 20, textAlign: 'center'}}>Archived Todos</Text>
       {archivedTodos.map((todo, index) => (
         <TouchableOpacity key={index} onPress={() => unarchiveTodo(todo)}>
