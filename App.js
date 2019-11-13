@@ -10,7 +10,7 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, Text, StatusBar} from 'react-native';
 import {StoreProvider} from 'easy-peasy';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {store} from './store';
+import store from './store';
 import Home from './components/Home';
 
 const App = () => {
