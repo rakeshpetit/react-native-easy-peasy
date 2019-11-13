@@ -3,7 +3,7 @@ import {View, TouchableOpacity, Button, Text, TextInput} from 'react-native';
 import {useStoreActions, useStoreState} from 'easy-peasy';
 
 const Home = () => {
-  const {todos} = useStoreState(state => state.todoList);
+  const {todos, todoCount} = useStoreState(state => state.todoList);
   const addTodo = useStoreActions(actions => actions.todoList.addTodoAsync);
   const removeTodo = useStoreActions(actions => actions.todoList.removeTodo);
   const [todoItem, setTodoItem] = useState('');
@@ -17,7 +17,7 @@ const Home = () => {
     <View>
       <Text style={{textAlign: 'center'}}>My Todos</Text>
       {todos.map((todo, index) => (
-        <TouchableOpacity onPress={() => removeTodo(todo)}>
+        <TouchableOpacity key={index} onPress={() => removeTodo(todo)}>
           <Text>{`${index + 1}. ${todo.text}`}</Text>
         </TouchableOpacity>
       ))}
@@ -31,6 +31,7 @@ const Home = () => {
         onChangeText={text => setTodoItem(text)}
       />
       <Button onPress={() => addTodoToList()} title="Add" />
+      <Text>{`We have ${todoCount} todos`}</Text>
     </View>
   );
 };

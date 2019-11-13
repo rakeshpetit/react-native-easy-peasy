@@ -1,4 +1,4 @@
-import {action, thunk} from 'easy-peasy';
+import {action, computed, thunk} from 'easy-peasy';
 const todoModel = {
   todos: [{text: 'Drink coffee', completed: false}],
   addTodo: action((state, payload) => {
@@ -12,12 +12,13 @@ const todoModel = {
     new Promise(resolve => {
       setTimeout(() => {
         resolve();
-      }, 1000);
+      }, 200);
     }).then(() => {
       // then dispatch an action to update state
       actions.addTodo(payload);
     });
   }),
+  todoCount: computed(state => state.todos.length),
 };
 
 const basketModel = {
