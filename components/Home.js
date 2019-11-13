@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {View, Button, Text, TextInput} from 'react-native';
+import {View, TouchableOpacity, Button, Text, TextInput} from 'react-native';
 import {useStoreActions, useStoreState} from 'easy-peasy';
 
 const Home = () => {
   const {todos} = useStoreState(state => state.todoList);
   const addTodo = useStoreActions(actions => actions.todoList.addTodoAsync);
+  const removeTodo = useStoreActions(actions => actions.todoList.removeTodo);
   const [todoItem, setTodoItem] = useState('');
   const addTodoToList = () => {
     if (todoItem) {
@@ -16,7 +17,9 @@ const Home = () => {
     <View>
       <Text style={{textAlign: 'center'}}>My Todos</Text>
       {todos.map((todo, index) => (
-        <Text>{`${index + 1}. ${todo.text}`}</Text>
+        <TouchableOpacity onPress={() => removeTodo(todo)}>
+          <Text>{`${index + 1}. ${todo.text}`}</Text>
+        </TouchableOpacity>
       ))}
       <TextInput
         style={{

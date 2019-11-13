@@ -4,6 +4,9 @@ const todoModel = {
   addTodo: action((state, payload) => {
     state.todos.push(payload);
   }),
+  removeTodo: action((state, payload) => {
+    state.todos = state.todos.filter(todo => todo.text !== payload.text);
+  }),
   addTodoAsync: thunk((actions, payload) => {
     // call our service
     new Promise(resolve => {
