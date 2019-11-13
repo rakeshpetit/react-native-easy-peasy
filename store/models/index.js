@@ -1,6 +1,9 @@
 import {action, computed, thunk} from 'easy-peasy';
 const todoModel = {
   todos: [{text: 'Drink coffee', completed: false, archived: false}],
+  clearTodos: action(state => {
+    state.todos = [];
+  }),
   addTodo: action((state, payload) => {
     state.todos.push(payload);
   }),
@@ -11,7 +14,7 @@ const todoModel = {
         : todo,
     );
   }),
-  removeTodo: action((state, payload) => {
+  modifyTodo: action((state, payload) => {
     if (!payload.completed) {
       state.todos = state.todos.map(todo =>
         todo.text === payload.text ? {...todo, completed: true} : todo,

@@ -11,7 +11,7 @@ const Home = () => {
     archivedCount,
   } = useStoreState(state => state.todoList);
   const addTodo = useStoreActions(actions => actions.todoList.addTodoAsync);
-  const removeTodo = useStoreActions(actions => actions.todoList.removeTodo);
+  const modifyTodo = useStoreActions(actions => actions.todoList.modifyTodo);
   const unarchiveTodo = useStoreActions(
     actions => actions.todoList.unarchiveTodo,
   );
@@ -26,7 +26,7 @@ const Home = () => {
     <View>
       <Text style={{textAlign: 'center'}}>My Todos</Text>
       {validTodos.map((todo, index) => (
-        <TouchableOpacity key={index} onPress={() => removeTodo(todo)}>
+        <TouchableOpacity key={index} onPress={() => modifyTodo(todo)}>
           <Text>{`${index + 1}. ${todo.text} [${
             todo.completed ? 'X' : ' '
           }]`}</Text>

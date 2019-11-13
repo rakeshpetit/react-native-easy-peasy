@@ -4,6 +4,16 @@ export function* rootSaga() {
   console.log('Hello Sagas!');
   yield call(addTodo);
   yield takeEvery('@action.todoList.removeTodo', removeTodoAudit);
+  //Fire this action below from redux dev tools to see the magic
+  //This is the way to integrate different models of the application to talk to each other async
+  yield takeEvery('@action.todos.clearAllTodos', clearAllTodos);
+}
+
+function* clearAllTodos() {
+  console.log('Clear all todos');
+  yield put({
+    type: '@action.todoList.clearTodos',
+  });
 }
 
 function* removeTodoAudit(payload) {
