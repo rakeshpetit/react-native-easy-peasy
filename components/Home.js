@@ -3,9 +3,17 @@ import {View, TouchableOpacity, Button, Text, TextInput} from 'react-native';
 import {useStoreActions, useStoreState} from 'easy-peasy';
 
 const Home = () => {
-  const {todos, todoCount} = useStoreState(state => state.todoList);
+  const {
+    validTodos,
+    archivedTodos,
+    completedCount,
+    incompleteCount,
+  } = useStoreState(state => state.todoList);
   const addTodo = useStoreActions(actions => actions.todoList.addTodoAsync);
   const removeTodo = useStoreActions(actions => actions.todoList.removeTodo);
+  const unarchiveTodo = useStoreActions(
+    actions => actions.todoList.unarchiveTodo,
+  );
   const [todoItem, setTodoItem] = useState('');
   const addTodoToList = () => {
     if (todoItem) {
@@ -16,9 +24,11 @@ const Home = () => {
   return (
     <View>
       <Text style={{textAlign: 'center'}}>My Todos</Text>
-      {todos.map((todo, index) => (
+      {validTodos.map((todo, index) => (
         <TouchableOpacity key={index} onPress={() => removeTodo(todo)}>
-          <Text>{`${index + 1}. ${todo.text}`}</Text>
+          <Text>{`${index + 1}. ${todo.text} [${
+            todo.completed ? 'X' : ' '
+          }]`}</Text>
         </TouchableOpacity>
       ))}
       <TextInput
@@ -31,7 +41,16 @@ const Home = () => {
         onChangeText={text => setTodoItem(text)}
       />
       <Button onPress={() => addTodoToList()} title="Add" />
-      <Text>{`We have ${todoCount} todos`}</Text>
+      <Text>{`We have ${completedCount} completed todos`}</Text>
+      <Text>{`We have ${incompleteCount} incomplete todos`}</Text>
+      <Text style={{marginTop: 20, textAlign: 'center'}}>Archived Todos</Text>
+      {archivedTodos.map((todo, index) => (
+        <TouchableOpacity key={index} onPress={() => unarchiveTodo(todo)}>
+          <Text>{`${index + 1}. ${todo.text} [${
+            todo.completed ? 'X' : ' '
+          }]`}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };

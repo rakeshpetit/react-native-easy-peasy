@@ -1,11 +1,26 @@
 import {action, computed, thunk} from 'easy-peasy';
 const todoModel = {
-  todos: [{text: 'Drink coffee', completed: false}],
+  todos: [{text: 'Drink coffee', completed: false, archived: false}],
   addTodo: action((state, payload) => {
     state.todos.push(payload);
   }),
+  unarchiveTodo: action((state, payload) => {
+    state.todos = state.todos.map(todo =>
+      todo.text === payload.text
+        ? {...todo, completed: false, archived: false}
+        : todo,
+    );
+  }),
   removeTodo: action((state, payload) => {
-    state.todos = state.todos.filter(todo => todo.text !== payload.text);
+    if (!payload.completed) {
+      state.todos = state.todos.map(todo =>
+        todo.text === payload.text ? {...todo, completed: true} : todo,
+      );
+    } else {
+      state.todos = state.todos.map(todo =>
+        todo.text === payload.text ? {...todo, archived: true} : todo,
+      );
+    }
   }),
   addTodoAsync: thunk((actions, payload) => {
     // call our service
@@ -18,7 +33,17 @@ const todoModel = {
       actions.addTodo(payload);
     });
   }),
-  todoCount: computed(state => state.todos.length),
+  completedCount: computed(
+    state => state.todos.filter(todo => todo.completed).length,
+  ),
+  incompleteCount: computed(
+    state => state.todos.filter(todo => !todo.completed).length,
+  ),
+  archivedCount: computed(
+    state => state.todos.filter(todo => todo.archived).length,
+  ),
+  validTodos: computed(state => state.todos.filter(todo => !todo.archived)),
+  archivedTodos: computed(state => state.todos.filter(todo => todo.archived)),
 };
 
 const basketModel = {

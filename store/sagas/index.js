@@ -16,7 +16,8 @@ function* addTodo() {
     type: '@action.todoList.addTodo',
     payload: {
       text: 'saga action',
-      completed: 'false',
+      completed: false,
+      archived: false,
     },
   });
 }
