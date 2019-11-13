@@ -4,7 +4,7 @@ import {useStoreActions, useStoreState} from 'easy-peasy';
 
 const Home = () => {
   const {todos} = useStoreState(state => state.todoList);
-  const addTodo = useStoreActions(actions => actions.todoList.addTodo);
+  const addTodo = useStoreActions(actions => actions.todoList.addTodoAsync);
   const [todoItem, setTodoItem] = useState('');
   const addTodoToList = () => {
     if (todoItem) {
