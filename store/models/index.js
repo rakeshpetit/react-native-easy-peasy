@@ -1,4 +1,4 @@
-import {action, computed, thunk} from 'easy-peasy';
+import {action, computed} from 'easy-peasy';
 const todoModel = {
   todos: [{text: 'Drink coffee', completed: false, archived: false}],
   clearTodos: action(state => {
@@ -25,17 +25,18 @@ const todoModel = {
       );
     }
   }),
-  addTodoAsync: thunk((actions, payload) => {
-    // call our service
-    new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, 200);
-    }).then(() => {
-      // then dispatch an action to update state
-      actions.addTodo(payload);
-    });
-  }),
+  addTodoAsync: action(() => {}),
+  // addTodoAsync: thunk((actions, payload) => {
+  //   // call our service
+  //   new Promise(resolve => {
+  //     setTimeout(() => {
+  //       resolve();
+  //     }, 200);
+  //   }).then(() => {
+  //     // then dispatch an action to update state
+  //     actions.addTodo(payload);
+  //   });
+  // }),
   completedCount: computed(
     state => state.todos.filter(todo => todo.completed).length,
   ),
