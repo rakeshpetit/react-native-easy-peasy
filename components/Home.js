@@ -10,6 +10,7 @@ const Home = () => {
     incompleteCount,
     archivedCount,
   } = useStoreState(state => state.todoList);
+  const clearTodos = useStoreActions(actions => actions.todoList.clearTodos);
   const addTodo = useStoreActions(actions => actions.todoList.addTodoAsync);
   const modifyTodo = useStoreActions(actions => actions.todoList.modifyTodo);
   const unarchiveTodo = useStoreActions(
@@ -53,6 +54,7 @@ const Home = () => {
           }]`}</Text>
         </TouchableOpacity>
       ))}
+      <Button onPress={() => clearTodos()} title="Clear All Todos" />
     </View>
   );
 };
