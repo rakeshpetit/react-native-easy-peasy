@@ -7,9 +7,13 @@ const Home = () => {
     validTodos,
     archivedTodos,
     completedCount,
+    currentContext,
     incompleteCount,
     archivedCount,
   } = useStoreState(state => state.todoList);
+  const contextChange = useStoreActions(
+    actions => actions.contextList.contextChange,
+  );
   const clearTodos = useStoreActions(actions => actions.todoList.clearTodos);
   const addTodo = useStoreActions(actions => actions.todoList.addTodoAsync);
   const modifyTodo = useStoreActions(actions => actions.todoList.modifyTodo);
@@ -25,7 +29,8 @@ const Home = () => {
   };
   return (
     <View>
-      <Text style={{textAlign: 'center'}}>My Todos</Text>
+      <Text
+        style={{textAlign: 'center'}}>{`My Todos [${currentContext}]`}</Text>
       {validTodos.map((todo, index) => (
         <TouchableOpacity key={index} onPress={() => modifyTodo(todo)}>
           <Text>{`${index + 1}. ${todo.text} [${
@@ -55,6 +60,7 @@ const Home = () => {
         </TouchableOpacity>
       ))}
       <Button onPress={() => clearTodos()} title="Clear All Todos" />
+      <Button onPress={() => contextChange()} title="Switch context" />
     </View>
   );
 };
